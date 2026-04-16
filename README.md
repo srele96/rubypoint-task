@@ -39,7 +39,6 @@ Make sure to have the Visual Studio which matches the CMake generator which you 
 On my Windows 11 OS, running `cmake --help`, listed the following generators:
 
 ```powershell
-
   Visual Studio 17 2022        = Generates Visual Studio 2022 project files.
                                  Use -A option to specify architecture.
   Visual Studio 16 2019        = Generates Visual Studio 2019 project files.
