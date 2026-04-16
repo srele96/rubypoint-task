@@ -28,9 +28,9 @@ The Visual Studio natively supports CMake.
 
 This method should work with a Visual Studio 2017 and onwards. Otherwise, read on.
 
-#### Cmake generators
+### CMake generators
 
-Cmake may generate project which Visual Studio may understand. For the list of supported generators, open the link below.
+CMake may generate project which Visual Studio may understand. For the list of supported generators, open the link below.
 
 [cmake-generators(7)](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html#visual-studio-generators)
 
