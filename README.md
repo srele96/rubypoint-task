@@ -1,6 +1,6 @@
 # rubypoint-task
 
-Rubypoint task folder.
+The Rubypoint task.
 
 ## Documentation
 
