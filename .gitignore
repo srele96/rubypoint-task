@@ -1,0 +1,8 @@
+# Visual Studio
+
+/.vs/
+/out/
+
+# Generated
+
+/build/
