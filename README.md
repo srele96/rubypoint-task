@@ -88,6 +88,8 @@ Just press the compile button.
 
 ### Math in latex document
 
+The latex file is automatically built to pdf via github workflow, the file may be found [on github actions page](https://github.com/srele96/rubypoint-task/actions)
+
 I used [Overleaf](https://www.overleaf.com) to write and review latex in real time.
 
 To compile latex to pdf, you will need [Docker](https://docs.docker.com/desktop/setup/install/windows-install/) installed.
