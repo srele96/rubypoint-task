@@ -57,3 +57,51 @@ On my Windows 11 OS, running `cmake --help`, listed the following generators:
   Visual Studio 9 2008 [arch]  = Generates Visual Studio 2008 project files.
                                  Optional [arch] can be "Win64" or "IA64".
 ```
+
+### Build project
+
+Steps how to generate the project.
+
+#### CMake steps
+
+Generate the project:
+
+```powershell
+cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S .
+```
+
+Build the project:
+
+```powershell
+cmake --build build
+```
+
+Run the binary:
+
+```powershell
+./build/rubypoint-task
+```
+
+#### Visual Studio steps
+
+Just press the compile button.
+
+### Math in latex document
+
+I used [Overleaf](https://www.overleaf.com) to write and review latex in real time.
+
+To compile latex to pdf, you will need [Docker](https://docs.docker.com/desktop/setup/install/windows-install/) installed.
+
+Run the following command from `powershell`:
+
+```powershell
+docker run --rm -v "${pwd}:/workdir" texlive/texlive pdflatex main.tex
+```
+
+_You can compile it using other cross-platform tools, but Docker was the most convenient for me._
+
+### Desmos
+
+I used desmos to visualize the Triple Scalar Product formula.
+
+You may find the [Triple Scalar Product 3D Desmos graph here](https://www.desmos.com/3d/txxmz6pgxy).

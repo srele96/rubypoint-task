@@ -1,0 +1,128 @@
+\documentclass{article}
+\usepackage[a4paper, total={8in, 10in}]{geometry}
+\usepackage{amsmath}
+
+\title{Find the two nearest points on the two line segments}
+\author{Kostic Srecko}
+
+\begin{document}
+\maketitle
+
+\section*{Solution}
+
+Let the following be line segments bounding points:
+
+\[
+\mathbf{A}_0 = \begin{pmatrix} x_{a0} \\ y_{a0} \\ z_{a0} \end{pmatrix}, \quad
+\mathbf{A}_1 = \begin{pmatrix} x_{a1} \\ y_{a1} \\ z_{a1} \end{pmatrix}, \quad
+\mathbf{B}_0 = \begin{pmatrix} x_{b0} \\ y_{b0} \\ z_{b0} \end{pmatrix}, \quad
+\mathbf{B}_1 = \begin{pmatrix} x_{b1} \\ y_{b1} \\ z_{b1} \end{pmatrix}
+\]
+
+Let $\mathbf{u}$ and $\mathbf{v}$ be the direction vectors for two segments $\mathbf{L}_A$ and $\mathbf{L}_B$, respectively:
+
+\begin{align*}
+    \mathbf{u} &= \mathbf{A}_1 - \mathbf{A}_0 \\
+    \mathbf{v} &= \mathbf{B}_1 - \mathbf{B}_0
+\end{align*}
+
+Let the following be the two line segments $\mathbf{L}_A$ and $\mathbf{L}_B$:
+
+\begin{align*}
+    \mathbf{L}_A(t) &= \mathbf{A}_0 + t\mathbf{u} \\
+    \mathbf{L}_B(s) &= \mathbf{B}_0 + s\mathbf{v}
+\end{align*}
+
+Let $\mathbf{w}$ be a direction vector function representing the distance between two points on the line segments:
+
+\[
+\mathbf{w}(t, s) = \mathbf{L}_A(t) - \mathbf{L}_B(s)
+\]
+
+The shortest line between two line segments is perpendicular to both.
+
+\[
+\begin{cases}
+    \mathbf{w}(t, s) \cdot \mathbf{u} = 0 \\
+    \mathbf{w}(t, s) \cdot \mathbf{v} = 0
+\end{cases}
+\]
+
+Expand $\mathbf{w}(t, s)$:
+
+\begin{align*}
+    \mathbf{w}(t, s) &= \mathbf{L}_A(t) - \mathbf{L}_B(s) \\
+    \mathbf{w}(t, s) &= (\mathbf{A}_0 + t\mathbf{u}) - (\mathbf{B}_0 + s\mathbf{v}) \\
+    \mathbf{w}(t, s) &= \mathbf{A}_0 + t\mathbf{u} - \mathbf{B}_0 - s\mathbf{v} \\
+    \mathbf{w}(t, s) &= \mathbf{A}_0 - \mathbf{B}_0 + t\mathbf{u} - s\mathbf{v}
+\end{align*}
+
+Isolate variables:
+
+\begin{align*}
+    \mathbf{w}(t, s) \cdot \mathbf{u} &= (\mathbf{A}_0 - \mathbf{B}_0) \cdot \mathbf{u} + t(\mathbf{u} \cdot \mathbf{u}) - s(\mathbf{v} \cdot \mathbf{u}) \\
+    \mathbf{w}(t, s) \cdot \mathbf{v} &= (\mathbf{A}_0 - \mathbf{B}_0) \cdot \mathbf{v} + t(\mathbf{u} \cdot \mathbf{v}) - s(\mathbf{v} \cdot \mathbf{v})
+\end{align*}
+
+To simplify, isolate variable $\mathbf{w}_0$:
+
+\[
+\mathbf{w}_0 = \mathbf{A}_0 - \mathbf{B}_0
+\]
+
+Substitute back in the system, and isolate constant to the other side:
+
+\begin{align*}
+    \mathbf{w}_0 \cdot \mathbf{u} + t(\mathbf{u} \cdot \mathbf{u}) - s(\mathbf{v} \cdot \mathbf{u}) = 0 \\
+    \mathbf{w}_0 \cdot \mathbf{v} + t(\mathbf{u} \cdot \mathbf{v}) - s(\mathbf{v} \cdot \mathbf{v}) = 0 \\
+    \\
+    t(\mathbf{u} \cdot \mathbf{u}) - s(\mathbf{v} \cdot \mathbf{u}) = - \mathbf{w}_0 \cdot \mathbf{u} \\
+    t(\mathbf{u} \cdot \mathbf{v}) - s(\mathbf{v} \cdot \mathbf{v}) = - \mathbf{w}_0 \cdot \mathbf{v} \\
+\end{align*}
+
+To simplify, isolate scalars to variables:
+
+\[
+a = \mathbf{u} \cdot \mathbf{u}, \quad
+b = \mathbf{u} \cdot \mathbf{v}, \quad
+c = \mathbf{v} \cdot \mathbf{v}, \quad
+d = \mathbf{u} \cdot \mathbf{w}_0, \quad
+e = \mathbf{v} \cdot \mathbf{w}_0
+\]
+
+Substitute constants:
+
+\[
+\begin{cases}
+    at - bs = -d \\
+    bt - cs = -e
+\end{cases}
+\]
+
+Solve the system using Cramer's rule:
+
+\begin{align*}
+    D &= b^2 - ac \\
+    D_t &= dc - eb \\
+    D_s &= bd - ae \\
+    t &= \frac{D_t}{D} \\
+    s &= \frac{D_s}{D} \\
+    t &= \frac{dc - eb}{b^2 - ac} \\
+    s &= \frac{bd - ae}{b^2 - ac}
+\end{align*}
+
+Let $\mathbf{P}$ and $\mathbf{Q}$ be the two closest points:
+
+\begin{align*}
+    \mathbf{P} &= \mathbf{L}_A(t) \\
+    \mathbf{Q} &= \mathbf{L}_B(s)
+\end{align*}
+
+\section*{Todo}
+
+\begin{itemize}
+    \item Feed this solution into Desmos to check the computation.
+    \item In C++ we need to clamp $t$ and $s$
+\end{itemize}
+
+\end{document}

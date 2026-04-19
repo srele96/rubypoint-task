@@ -6,3 +6,9 @@
 # Generated
 
 /build/
+
+# Latex
+
+/*.aux
+/*.pdf
+/*.log
