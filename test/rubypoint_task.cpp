@@ -1,18 +1,10 @@
 #include "rubypoint_task/rubypoint_task.h"
 
+#include <cmath>
+
 #include "gtest/gtest.h"
 
-// Ensures `double` precision data type works
-// Ensures anonymous union can access members as named members
-// Ensures access of members via [] notation
-// Ensure inheritance works
-// Ensure data is initialized correctly
-// Ensure vector base accepts scalar data types
 // Ensure operator overloads work correctly
-// Ensure dot product works correctly
-// Ensure cross product works correctly
-// Ensure length works correctly
-// Ensure distance works correctly
 
 namespace SetupTest {
 
@@ -33,6 +25,10 @@ struct Foo : RubypointTask::VectorBase<N, T, Foo<N, T>> {
 
 }  // namespace SetupTest
 
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Inheritance, 3D
 // ----------------------------------------------------------------------------
 
 TEST(VectorBase, _3D_Inheritance_Works) {
@@ -78,6 +74,8 @@ TEST(VectorBase, _3D_Accepts_Double) {
 }
 
 // ----------------------------------------------------------------------------
+// Inheritance, 2D
+// ----------------------------------------------------------------------------
 
 TEST(VectorBase, _2D_Inheritance_Works) {
   // Arrange
@@ -120,38 +118,161 @@ TEST(VectorBase, _2D_Accepts_Integer) {
 // ----------------------------------------------------------------------------
 
 TEST(Dot_Product, GeneralCase) {
+  // Arrange
   SetupTest::Foo<3, double> a{1.0, 2.0, 3.0};
   SetupTest::Foo<3, double> b{4.0, 5.0, 6.0};
 
-  EXPECT_DOUBLE_EQ(RubypointTask::dot(a, b), 32.0);
+  // Act
+  auto r{RubypointTask::dot(a, b)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(r, 32.0);
 }
 
 TEST(Dot_Product, ParallelVectors) {
+  // Arrange
   SetupTest::Foo<3, double> a{1.0, 0.0, 0.0};
   SetupTest::Foo<3, double> b{2.0, 0.0, 0.0};
 
-  EXPECT_DOUBLE_EQ(RubypointTask::dot(a, b), 2.0);
+  // Act
+  auto r{RubypointTask::dot(a, b)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(r, 2.0);
 }
 
 TEST(Dot_Product, PerpendicularVectors) {
+  // Arrange
   SetupTest::Foo<3, double> a{1.0, 0.0, 0.0};
   SetupTest::Foo<3, double> b{0.0, 1.0, 0.0};
 
-  EXPECT_DOUBLE_EQ(RubypointTask::dot(a, b), 0.0);
+  // Act
+  auto r{RubypointTask::dot(a, b)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(r, 0.0);
 }
 
 // ----------------------------------------------------------------------------
 // Cross product
 // ----------------------------------------------------------------------------
 
-TEST(Cross_Product, Something) {
-  //
+TEST(Cross_Product, X_Cross_Y_Is_Z) {
+  // Arrange
+  SetupTest::Foo<3, double> x{1.0, 0.0, 0.0};
+  SetupTest::Foo<3, double> y{0.0, 1.0, 0.0};
+
+  // Act
+  auto r{RubypointTask::cross(x, y)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(r[0], 0.0);
+  EXPECT_DOUBLE_EQ(r[1], 0.0);
+  EXPECT_DOUBLE_EQ(r[2], 1.0);
+}
+
+TEST(Cross_Product, Anti_Commutative) {
+  // Arrange
+  SetupTest::Foo<3, double> a{1.0, 2.0, 3.0};
+  SetupTest::Foo<3, double> b{4.0, 5.0, 6.0};
+
+  // Act
+  auto ab{RubypointTask::cross(a, b)};
+  auto ba{RubypointTask::cross(b, a)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(ab[0], -ba[0]);
+  EXPECT_DOUBLE_EQ(ab[1], -ba[1]);
+  EXPECT_DOUBLE_EQ(ab[2], -ba[2]);
+}
+
+TEST(Cross_Product, Parallel_Vectors_Is_Zero) {
+  // Arrange
+  SetupTest::Foo<3, double> a{1.0, 0.0, 0.0};
+  SetupTest::Foo<3, double> b{2.0, 0.0, 0.0};
+
+  // Act
+  auto r{RubypointTask::cross(a, b)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(r[0], 0.0);
+  EXPECT_DOUBLE_EQ(r[1], 0.0);
+  EXPECT_DOUBLE_EQ(r[2], 0.0);
 }
 
 // ----------------------------------------------------------------------------
 // Length
 // ----------------------------------------------------------------------------
 
-TEST(Cross_Product, Something) {
-  //
+TEST(Length, Unit_Vector) {
+  // Arrange
+  SetupTest::Foo<3, double> a{1.0, 0.0, 0.0};
+
+  // Act
+  auto r{RubypointTask::length(a)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(r, 1.0);
+}
+
+TEST(Length, General_Case) {
+  // Arrange
+  SetupTest::Foo<3, double> a{1.0, 1.0, 0.0};
+
+  // Act
+  auto r{RubypointTask::length(a)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(r, std::sqrt(2.0));
+}
+
+TEST(Length, Zero_Vector) {
+  // Arrange
+  SetupTest::Foo<3, double> a{0.0, 0.0, 0.0};
+
+  // Act
+  auto r{RubypointTask::length(a)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(r, 0.0);
+}
+
+// ----------------------------------------------------------------------------
+// Distance
+// ----------------------------------------------------------------------------
+
+TEST(Distance, Known_Points) {
+  // Arrange
+  SetupTest::Foo<3, double> a{1.0, 1.0, 0.0};
+  SetupTest::Foo<3, double> b{3.0, 3.0, 0.0};
+
+  // Act
+  auto r{RubypointTask::distance(a, b)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(r, std::sqrt(8.0));
+}
+
+TEST(Distance, Same_Point_Is_Zero) {
+  // Arrange
+  SetupTest::Foo<3, double> a{1.0, 1.0, 0.0};
+
+  // Act
+  auto r{RubypointTask::distance(a, a)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(r, 0.0);
+}
+
+TEST(Distance, Is_Symmetric) {
+  // Arrange
+  SetupTest::Foo<3, double> a{1.0, 0.0, 0.0};
+  SetupTest::Foo<3, double> b{4.0, 0.0, 0.0};
+
+  // Act
+  auto ab{RubypointTask::distance(a, b)};
+  auto ba{RubypointTask::distance(b, a)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(ab, ba);
 }
