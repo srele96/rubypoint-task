@@ -9,11 +9,119 @@ namespace RubypointTask {
 template <typename T>
 concept Scalar = std::is_arithmetic_v<T>;
 
+template <std::size_t N, Scalar T, typename Derived>
+struct VectorBase {
+  Derived& self() { return static_cast<Derived&>(*this); }
+  const Derived& self() const { return static_cast<const Derived&>(*this); }
+
+  // --------------------------------------------------------------------------
+
+  Derived operator+(const Derived& o) const {
+    Derived result;
+    for (std::size_t i{0}; i < N; ++i) {
+      result[i] = self()[i] + o[i];
+    }
+    return result;
+  }
+
+  Derived operator-(const Derived& o) const {
+    Derived result;
+    for (std::size_t i{0}; i < N; ++i) {
+      result[i] = self()[i] - o[i];
+    }
+    return result;
+  }
+
+  Derived operator*(const Derived& o) const {
+    Derived result;
+    for (std::size_t i{0}; i < N; ++i) {
+      result[i] = self()[i] * o[i];
+    }
+    return result;
+  }
+
+  Derived operator/(const Derived& o) const {
+    Derived result;
+    for (std::size_t i{0}; i < N; ++i) {
+      result[i] = self()[i] / o[i];
+    }
+    return result;
+  }
+
+  // --------------------------------------------------------------------------
+
+  Derived& operator+=(const Derived& o) { return self() = self() + o; }
+
+  Derived& operator-=(const Derived& o) { return self() = self() - o; }
+
+  Derived& operator*=(const Derived& o) { return self() = self() * o; }
+
+  Derived& operator/=(const Derived& o) { return self() = self() / o; }
+
+  // --------------------------------------------------------------------------
+
+  Derived operator+(T s) const {
+    Derived result;
+    for (std::size_t i{0}; i < N; ++i) {
+      result[i] = self()[i] + s;
+    }
+    return result;
+  }
+
+  Derived operator-(T s) const {
+    Derived result;
+    for (std::size_t i{0}; i < N; ++i) {
+      result[i] = self()[i] - s;
+    }
+    return result;
+  }
+
+  Derived operator*(T s) const {
+    Derived result;
+    for (std::size_t i{0}; i < N; ++i) {
+      result[i] = self()[i] * s;
+    }
+    return result;
+  }
+
+  Derived operator/(T s) const {
+    Derived result;
+    for (std::size_t i{0}; i < N; ++i) {
+      result[i] = self()[i] / s;
+    }
+    return result;
+  }
+
+  // --------------------------------------------------------------------------
+
+  friend Derived operator+(T s, const Derived& v) { return v + s; }
+
+  friend Derived operator-(T s, const Derived& v) {
+    Derived result;
+    for (std::size_t i{0}; i < N; ++i) {
+      result[i] = s - v[i];
+    }
+    return result;
+  }
+
+  friend Derived operator*(T s, const Derived& v) { return v * s; }
+
+  friend Derived operator/(T s, const Derived& v) {
+    Derived result;
+    for (std::size_t i{0}; i < N; ++i) {
+      result[i] = s / v[i];
+    }
+    return result;
+  }
+};
+
 // We need vector members to be packed sequentially in memory. This allows CPU
 // and GPU efficiency, as GPU is often optimized for 16 bit alignment.
 template <std::size_t N, Scalar T>
-struct Vector {
+struct Vector : VectorBase<N, T, Vector<N, T>> {
   T data[N];
+
+  Vector() : data{} {}
 
   T& operator[](std::size_t i) { return data[i]; }
   const T& operator[](std::size_t i) const { return data[i]; }
@@ -23,7 +131,7 @@ struct Vector {
 // even though the task requirements specifically say the computation is in 3D
 // space. Vector should be N dimensional container of specialized scalar types.
 template <Scalar T>
-struct Vector<3, T> {
+struct Vector<3, T> : VectorBase<3, T, Vector<3, T>> {
   // Allows access to each member for this specialization in a more clean way.
   union {
     T data[3];
@@ -41,56 +149,6 @@ struct Vector<3, T> {
 
   T& operator[](std::size_t i) { return data[i]; }
   const T& operator[](std::size_t i) const { return data[i]; }
-
-  // --------------------------------------------------------------------------
-
-  Vector operator+(const Vector& o) const {
-    return Vector{x + o.x, y + o.y, z + o.z};
-  }
-
-  Vector operator-(const Vector& o) const {
-    return Vector{x - o.x, y - o.y, z - o.z};
-  }
-
-  Vector operator*(const Vector& o) const {
-    return Vector{x * o.x, y * o.y, z * o.z};
-  }
-
-  Vector operator/(const Vector& o) const {
-    return Vector{x / o.x, y / o.y, z / o.z};
-  }
-
-  // --------------------------------------------------------------------------
-
-  Vector& operator+=(const Vector& o) { return *this = *this + o; }
-
-  Vector& operator-=(const Vector& o) { return *this = *this - o; }
-
-  Vector& operator*=(const Vector& o) { return *this = *this * o; }
-
-  Vector& operator/=(const Vector& o) { return *this = *this / o; }
-
-  Vector operator+(T s) const { return Vector{x + s, y + s, z + s}; }
-
-  // --------------------------------------------------------------------------
-
-  friend Vector operator+(T s, const Vector& v) { return v + s; }
-
-  Vector operator-(T s) const { return Vector{x - s, y - s, z - s}; }
-
-  friend Vector operator-(T s, const Vector& v) {
-    return Vector{s - v.x, s - v.y, s - v.z};
-  }
-
-  Vector operator*(T s) const { return Vector{x * s, y * s, z * s}; }
-
-  friend Vector operator*(T s, const Vector& v) { return v * s; }
-
-  Vector operator/(T s) const { return Vector{x / s, y / s, z / s}; }
-
-  friend Vector operator/(T s, const Vector& v) {
-    return Vector{s / v.x, s / v.y, s / v.z};
-  }
 };
 
 // ----------------------------------------------------------------------------
@@ -119,6 +177,11 @@ T length(const Vector<N, T>& a) {
   }
 
   return std::sqrt(sum);
+}
+
+template <std::size_t N, Scalar T>
+T distance(const Vector<N, T>& a, const Vector<N, T>& b) {
+  return length(b - a);
 }
 
 template <Scalar T>
