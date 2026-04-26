@@ -1,4 +1,4 @@
-# rubypoint-task
+#rubypoint - task
 
 The Rubypoint task.
 
@@ -64,6 +64,10 @@ Steps how to generate the project.
 
 #### CMake steps
 
+Set of steps to build and run via command line.
+
+##### If you want to simply build and run the source:
+
 Generate the project:
 
 ```powershell
@@ -82,9 +86,53 @@ Run the binary:
 ./build/rubypoint-task
 ```
 
+##### If you want to build and run the tests:
+
+Generate the project with tests:
+
+```powershell
+cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DBUILD_TESTS=ON -S .
+```
+
+Run the tests:
+
+```powershell
+./build/rubypoint-task-tests
+```
+
 #### Visual Studio steps
 
-Just press the compile button.
+A set of steps to open, build and run via Visual Studio.
+
+##### If you visit a project on GitHub
+
+Open project:
+
+<img src="./asset/open-project.png" width="400">
+
+Configure project:
+
+<img src="./asset/configure-project.png" width="400">
+
+Build all:
+
+<img src="./asset/build-all.png" width="400">
+
+Run the source or test binary:
+
+<img src="./asset/run-binary-or-tests.png" width="400">
+
+##### If you don't open the GitHub repository with images
+
+Open Visual Studio, then press `Open a folder`, and find the path to the folder you want to open. Press `Select Folder`.
+
+Find `Project` at the top left menu bar, then press `Configure <project-name>`. This should generate `out` directory with relevant configuration.
+
+Find `Build` at the top left menu bar, to the right of `Project`, then press `Build All`. This ensures source and test binaries are built.
+
+Make sure `x64 Debug` preset is selected, and where green triangle with the binary name is, `rubypoint-task.exe`, click the dropdown icon, you should find `rubypoint-task.exe` and `rubypoint-task-test.exe`. Select whichever you want to run, it will close a dropdown. Then, just press the green triangle with the name of the selected build target.
+
+Hopefully, everything worked, and the project builds fine.
 
 ### Math in latex document
 
