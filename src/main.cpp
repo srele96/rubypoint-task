@@ -11,6 +11,5 @@ int main() {
                                        RubypointTask::Vec3f{3.0f, 3.0f, 0.0f})
             << "\n";
 
-  std::cout << "hello world\n";
   return 0;
 }
