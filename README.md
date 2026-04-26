@@ -1,4 +1,4 @@
-# rubypoint - task
+# Rubypoint Task
 
 The Rubypoint task.
 
@@ -83,7 +83,7 @@ cmake --build build
 Run the binary:
 
 ```powershell
-./build/rubypoint-task
+./build/rubypoint-task-app
 ```
 
 ##### If you want to build and run the tests:
@@ -103,7 +103,7 @@ cmake --build build
 Run the tests:
 
 ```powershell
-./build/rubypoint-task-tests
+./build/rubypoint-task-test
 ```
 
 #### Visual Studio steps
@@ -136,7 +136,7 @@ Find `Project` at the top left menu bar, then press `Configure <project-name>`. 
 
 Find `Build` at the top left menu bar, to the right of `Project`, then press `Build All`. This ensures source and test binaries are built.
 
-Make sure `x64 Debug` preset is selected, and where green triangle with the binary name is, `rubypoint-task.exe`, click the dropdown icon, you should find `rubypoint-task.exe` and `rubypoint-task-test.exe`. Select whichever you want to run, it will close a dropdown. Then, just press the green triangle with the name of the selected build target.
+Make sure `x64 Debug` preset is selected, and where green triangle with the binary name is, `rubypoint-task.exe`, click the dropdown icon, you should find `rubypoint-task-app.exe` and `rubypoint-task-test.exe`. Select whichever you want to run, it will close a dropdown. Then, just press the green triangle with the name of the selected build target.
 
 Hopefully, everything worked, and the project builds fine.
 
