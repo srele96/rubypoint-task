@@ -1,4 +1,4 @@
-#rubypoint - task
+# rubypoint - task
 
 The Rubypoint task.
 
