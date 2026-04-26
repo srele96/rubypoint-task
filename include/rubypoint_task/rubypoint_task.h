@@ -199,6 +199,15 @@ auto distance(const VectorBase<N, T, Derived>& a,
   return length(db - da);
 }
 
+template<std::size_t N, std::floating_point T, typename Derived>
+Derived normalize(const VectorBase<N, T, Derived>& a) {
+  const Derived& da{static_cast<const Derived&>(a)};
+
+  auto len{length(da)};
+
+  return da * (T{1} / static_cast<T>(len));
+}
+
 template <Scalar T, typename Derived>
 Derived cross(const VectorBase<3, T, Derived>& a,
               const VectorBase<3, T, Derived>& b) {

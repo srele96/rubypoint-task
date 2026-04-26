@@ -529,3 +529,42 @@ TEST(Distance, Is_Symmetric) {
   // Assert
   EXPECT_DOUBLE_EQ(ab, ba);
 }
+
+// ----------------------------------------------------------------------------
+// Normalize
+// ----------------------------------------------------------------------------
+
+TEST(Normalize, Unit_Vector_Stays_Unit) {
+  // Arrange
+  SetupTest::Vec3d a{1.0, 0.0, 0.0};
+
+  // Act
+  auto r{RubypointTask::normalize(a)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(RubypointTask::length(r), 1.0);
+}
+
+TEST(Normalize, General_Vector_Becomes_Unit) {
+  // Arrange
+  SetupTest::Vec3d a{3.0, 4.0, 0.0};
+
+  // Act
+  auto r{RubypointTask::normalize(a)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(RubypointTask::length(r), 1.0);
+}
+
+TEST(Normalize, Direction_Is_Preserved) {
+  // Arrange
+  SetupTest::Vec3d a{2.0, 0.0, 0.0};
+
+  // Act
+  auto r{RubypointTask::normalize(a)};
+
+  // Assert
+  EXPECT_DOUBLE_EQ(r.x, 1.0);
+  EXPECT_DOUBLE_EQ(r.y, 0.0);
+  EXPECT_DOUBLE_EQ(r.z, 0.0);
+}
