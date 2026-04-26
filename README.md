@@ -94,6 +94,12 @@ Generate the project with tests:
 cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DBUILD_TESTS=ON -S .
 ```
 
+Build the project:
+
+```powershell
+cmake --build build
+```
+
 Run the tests:
 
 ```powershell
