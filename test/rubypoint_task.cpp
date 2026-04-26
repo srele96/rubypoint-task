@@ -63,7 +63,7 @@ TEST(VectorBase, _3D_Inheritance_Works) {
   // Act
   auto r{a + b};
 
-  // Asset
+  // Assert
   EXPECT_FLOAT_EQ(r[0], 5.0f);
   EXPECT_FLOAT_EQ(r[1], 7.0f);
   EXPECT_FLOAT_EQ(r[2], 9.0f);
@@ -84,7 +84,7 @@ TEST(VectorBase, _3D_Accepts_Double) {
   // Act
   auto r{a + b};
 
-  // Asset
+  // Assert
   EXPECT_DOUBLE_EQ(r[0], 5.0);
   EXPECT_DOUBLE_EQ(r[1], 7.0);
   EXPECT_DOUBLE_EQ(r[2], 9.0);
@@ -107,7 +107,7 @@ TEST(VectorBase, _2D_Inheritance_Works) {
   // Act
   auto r{a + b};
 
-  // Asset
+  // Assert
   EXPECT_FLOAT_EQ(r[0], 4.0f);
   EXPECT_FLOAT_EQ(r[1], 6.0f);
 }
@@ -125,7 +125,7 @@ TEST(VectorBase, _2D_Accepts_Integer) {
   // Act
   auto r{a + b};
 
-  // Asset
+  // Assert
   EXPECT_EQ(r[0], 4);
   EXPECT_EQ(r[1], 6);
 }
@@ -139,44 +139,56 @@ TEST(VectorBase, _2D_Accepts_Integer) {
 // ------------------------------------
 
 TEST(VectorBase, Operator_Overload_Two_Vectors_Add) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
   SetupTest::Vec3d b{4.0, 5.0, 6.0};
 
+  // Act
   auto r{a + b};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, 5.0);
   EXPECT_DOUBLE_EQ(r.y, 7.0);
   EXPECT_DOUBLE_EQ(r.z, 9.0);
 }
 
 TEST(VectorBase, Operator_Overload_Two_Vectors_Subtract) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
   SetupTest::Vec3d b{4.0, 5.0, 6.0};
 
+  // Act
   auto r{a - b};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, -3.0);
   EXPECT_DOUBLE_EQ(r.y, -3.0);
   EXPECT_DOUBLE_EQ(r.z, -3.0);
 }
 
 TEST(VectorBase, Operator_Overload_Two_Vectors_Multiply) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
   SetupTest::Vec3d b{4.0, 5.0, 6.0};
 
+  // Act
   auto r{a * b};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, 4.0);
   EXPECT_DOUBLE_EQ(r.y, 10.0);
   EXPECT_DOUBLE_EQ(r.z, 18.0);
 }
 
 TEST(VectorBase, Operator_Overload_Two_Vectors_Divide) {
+  // Arrange
   SetupTest::Vec3d a{4.0, 6.0, 9.0};
   SetupTest::Vec3d b{2.0, 3.0, 3.0};
 
+  // Act
   auto r{a / b};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, 2.0);
   EXPECT_DOUBLE_EQ(r.y, 2.0);
   EXPECT_DOUBLE_EQ(r.z, 3.0);
@@ -187,44 +199,56 @@ TEST(VectorBase, Operator_Overload_Two_Vectors_Divide) {
 // ------------------------------------
 
 TEST(VectorBase, Operator_Overload_Compound_Add) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
   SetupTest::Vec3d b{4.0, 5.0, 6.0};
 
+  // Act
   a += b;
 
+  // Assert
   EXPECT_DOUBLE_EQ(a.x, 5.0);
   EXPECT_DOUBLE_EQ(a.y, 7.0);
   EXPECT_DOUBLE_EQ(a.z, 9.0);
 }
 
 TEST(VectorBase, Operator_Overload_Compound_Subtract) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
   SetupTest::Vec3d b{4.0, 5.0, 6.0};
 
+  // Act
   a -= b;
 
+  // Assert
   EXPECT_DOUBLE_EQ(a.x, -3.0);
   EXPECT_DOUBLE_EQ(a.y, -3.0);
   EXPECT_DOUBLE_EQ(a.z, -3.0);
 }
 
 TEST(VectorBase, Operator_Overload_Compound_Multiply) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
   SetupTest::Vec3d b{4.0, 5.0, 6.0};
 
+  // Act
   a *= b;
 
+  // Assert
   EXPECT_DOUBLE_EQ(a.x, 4.0);
   EXPECT_DOUBLE_EQ(a.y, 10.0);
   EXPECT_DOUBLE_EQ(a.z, 18.0);
 }
 
 TEST(VectorBase, Operator_Overload_Compound_Divide) {
+  // Arrange
   SetupTest::Vec3d a{4.0, 6.0, 9.0};
   SetupTest::Vec3d b{2.0, 3.0, 3.0};
 
+  // Act
   a /= b;
 
+  // Assert
   EXPECT_DOUBLE_EQ(a.x, 2.0);
   EXPECT_DOUBLE_EQ(a.y, 2.0);
   EXPECT_DOUBLE_EQ(a.z, 3.0);
@@ -235,40 +259,52 @@ TEST(VectorBase, Operator_Overload_Compound_Divide) {
 // ------------------------------------
 
 TEST(VectorBase, Operator_Overload_Scalar_Add_Left) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
 
+  // Act
   auto r{2.0 + a};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, 3.0);
   EXPECT_DOUBLE_EQ(r.y, 4.0);
   EXPECT_DOUBLE_EQ(r.z, 5.0);
 }
 
 TEST(VectorBase, Operator_Overload_Scalar_Subtract_Left) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
 
+  // Act
   auto r{2.0 - a};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, 1.0);
   EXPECT_DOUBLE_EQ(r.y, 0.0);
   EXPECT_DOUBLE_EQ(r.z, -1.0);
 }
 
 TEST(VectorBase, Operator_Overload_Scalar_Multiply_Left) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
 
+  // Act
   auto r{2.0 * a};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, 2.0);
   EXPECT_DOUBLE_EQ(r.y, 4.0);
   EXPECT_DOUBLE_EQ(r.z, 6.0);
 }
 
 TEST(VectorBase, Operator_Overload_Scalar_Divide_Left) {
+  // Arrange
   SetupTest::Vec3d a{2.0, 3.0, 4.0};
 
+  // Act
   auto r{12.0 / a};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, 6.0);
   EXPECT_DOUBLE_EQ(r.y, 4.0);
   EXPECT_DOUBLE_EQ(r.z, 3.0);
@@ -279,40 +315,52 @@ TEST(VectorBase, Operator_Overload_Scalar_Divide_Left) {
 // ------------------------------------
 
 TEST(VectorBase, Operator_Overload_Scalar_Add_Right) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
 
+  // Act
   auto r{a + 2.0};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, 3.0);
   EXPECT_DOUBLE_EQ(r.y, 4.0);
   EXPECT_DOUBLE_EQ(r.z, 5.0);
 }
 
 TEST(VectorBase, Operator_Overload_Scalar_Subtract_Right) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
 
+  // Act
   auto r{a - 2.0};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, -1.0);
   EXPECT_DOUBLE_EQ(r.y, 0.0);
   EXPECT_DOUBLE_EQ(r.z, 1.0);
 }
 
 TEST(VectorBase, Operator_Overload_Scalar_Multiply_Right) {
+  // Arrange
   SetupTest::Vec3d a{1.0, 2.0, 3.0};
 
+  // Act
   auto r{a * 2.0};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, 2.0);
   EXPECT_DOUBLE_EQ(r.y, 4.0);
   EXPECT_DOUBLE_EQ(r.z, 6.0);
 }
 
 TEST(VectorBase, Operator_Overload_Scalar_Divide_Right) {
+  // Arrange
   SetupTest::Vec3d a{2.0, 4.0, 6.0};
 
+  // Act
   auto r{a / 2.0};
 
+  // Assert
   EXPECT_DOUBLE_EQ(r.x, 1.0);
   EXPECT_DOUBLE_EQ(r.y, 2.0);
   EXPECT_DOUBLE_EQ(r.z, 3.0);
