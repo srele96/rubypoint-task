@@ -9,6 +9,8 @@ namespace RubypointTask {
 template <typename T>
 concept Scalar = std::is_arithmetic_v<T>;
 
+// Allows reuse of operator overloads at compile time
+// https://en.cppreference.com/cpp/language/crtp
 template <std::size_t N, Scalar T, typename Derived>
 struct VectorBase {
   Derived& self() { return static_cast<Derived&>(*this); }
@@ -127,6 +129,9 @@ struct Vector : VectorBase<N, T, Vector<N, T>> {
   const T& operator[](std::size_t i) const { return data[i]; }
 };
 
+// Template specialization of 3D vector, which allows extension to N dimensional
+// vector specialization.
+//
 // I made the Vector class as generic as possible (but not more than necessary),
 // even though the task requirements specifically say the computation is in 3D
 // space. Vector should be N dimensional container of specialized scalar types.
@@ -201,6 +206,10 @@ int main() {
   auto r_0{a_1 - a_0};
   auto r_1{3.0f * a_0};
   auto r_2{a_0 * 3.0f};
+  std::cout << "Distance: "
+            << RubypointTask::distance(RubypointTask::Vec3f{1.0f, 1.0f, 0.0f},
+                                       RubypointTask::Vec3f{3.0f, 3.0f, 0.0f})
+            << "\n";
 
   std::cout << "hello world\n";
   return 0;

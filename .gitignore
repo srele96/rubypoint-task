@@ -2,6 +2,7 @@
 
 /.vs/
 /out/
+/CMakeSettings.json
 
 # Generated
 
