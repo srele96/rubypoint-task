@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "rubypoint_task/rubypoint_task.h"
 
 int main() {

@@ -1,10 +1,8 @@
 #pragma once
 
+#include <cassert>
 #include <cmath>
 #include <concepts>
-#include <cstddef>
-#include <iostream>
-#include <utility>
 #include <cstddef>
 
 namespace RubypointTask {
@@ -151,7 +149,7 @@ struct Vector<3, T> : VectorBase<3, T, Vector<3, T>> {
     };
   };
 
-  explicit Vector(T x_ = 0, T y_ = 0, T z_ = 0) : x{x_}, y{y_}, z{z_} {}
+  Vector(T x_ = 0, T y_ = 0, T z_ = 0) : x{x_}, y{y_}, z{z_} {}
 
   // --------------------------------------------------------------------------
 
@@ -165,40 +163,55 @@ using Vec3f = Vector<3, float>;
 
 // ----------------------------------------------------------------------------
 
-template <std::size_t N, Scalar T>
-T dot(const Vector<N, T>& a, const Vector<N, T>& b) {
+template <std::size_t N, Scalar T, typename Derived>
+T dot(const VectorBase<N, T, Derived>& a, const VectorBase<N, T, Derived>& b) {
+  const Derived& da{static_cast<const Derived&>(a)};
+  const Derived& db{static_cast<const Derived&>(b)};
+
   T sum{0};
 
   for (std::size_t i{0}; i < N; ++i) {
-    sum += a[i] * b[i];
+    sum += da[i] * db[i];
   }
 
   return sum;
 }
 
-template <std::size_t N, Scalar T>
-T length(const Vector<N, T>& a) {
+template <std::size_t N, Scalar T, typename Derived>
+auto length(const VectorBase<N, T, Derived>& a) -> decltype(std::sqrt(T{})) {
+  const Derived& da {static_cast<const Derived&>(a)};
+
   T sum{0};
 
   for (std::size_t i{0}; i < N; ++i) {
-    sum += a[i] * a[i];
+    sum += da[i] * da[i];
   }
 
   return std::sqrt(sum);
 }
 
-template <std::size_t N, Scalar T>
-T distance(const Vector<N, T>& a, const Vector<N, T>& b) {
-  return length(b - a);
+template <std::size_t N, Scalar T, typename Derived>
+auto distance(const VectorBase<N, T, Derived>& a,
+              const VectorBase<N, T, Derived>& b) {
+  const Derived& da {static_cast<const Derived&>(a)};
+  const Derived& db {static_cast<const Derived&>(b)};
+
+  return length(db - da);
 }
 
-template <Scalar T>
-Vector<3, T> cross(const Vector<3, T>& a, const Vector<3, T>& b) {
-  return Vector<3, T>{
-      a.y * b.z - a.z * b.y,  //
-      a.z * b.x - a.x * b.z,  //
-      a.x * b.y - a.y * b.x   //
-  };
+template <Scalar T, typename Derived>
+Derived cross(const VectorBase<3, T, Derived>& a,
+              const VectorBase<3, T, Derived>& b) {
+  const Derived& da{static_cast<const Derived&>(a)};
+  const Derived& db{static_cast<const Derived&>(b)};
+
+  Derived result;
+
+  result[0] = da[1] * db[2] - da[2] * db[1];
+  result[1] = da[2] * db[0] - da[0] * db[2];
+  result[2] = da[0] * db[1] - da[1] * db[0];
+
+  return result;
 }
 
 }  // namespace RubypointTask

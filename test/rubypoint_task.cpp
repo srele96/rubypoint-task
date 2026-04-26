@@ -22,6 +22,11 @@ struct Foo : RubypointTask::VectorBase<N, T, Foo<N, T>> {
 
   Foo() : data{} {}
 
+  template <typename... Args>
+  Foo(Args... args) : data{static_cast<T>(args)...} {
+    static_assert(sizeof...(Args) == N, "Number of arguments must match N!");
+  }
+
   T& operator[](std::size_t i) { return data[i]; }
   const T& operator[](std::size_t i) const { return data[i]; }
 };
@@ -111,7 +116,42 @@ TEST(VectorBase, _2D_Accepts_Integer) {
 }
 
 // ----------------------------------------------------------------------------
+// Dot product
+// ----------------------------------------------------------------------------
 
-TEST(VectorBase, Ensures_) {
+TEST(Dot_Product, GeneralCase) {
+  SetupTest::Foo<3, double> a{1.0, 2.0, 3.0};
+  SetupTest::Foo<3, double> b{4.0, 5.0, 6.0};
+
+  EXPECT_DOUBLE_EQ(RubypointTask::dot(a, b), 32.0);
+}
+
+TEST(Dot_Product, ParallelVectors) {
+  SetupTest::Foo<3, double> a{1.0, 0.0, 0.0};
+  SetupTest::Foo<3, double> b{2.0, 0.0, 0.0};
+
+  EXPECT_DOUBLE_EQ(RubypointTask::dot(a, b), 2.0);
+}
+
+TEST(Dot_Product, PerpendicularVectors) {
+  SetupTest::Foo<3, double> a{1.0, 0.0, 0.0};
+  SetupTest::Foo<3, double> b{0.0, 1.0, 0.0};
+
+  EXPECT_DOUBLE_EQ(RubypointTask::dot(a, b), 0.0);
+}
+
+// ----------------------------------------------------------------------------
+// Cross product
+// ----------------------------------------------------------------------------
+
+TEST(Cross_Product, Something) {
+  //
+}
+
+// ----------------------------------------------------------------------------
+// Length
+// ----------------------------------------------------------------------------
+
+TEST(Cross_Product, Something) {
   //
 }
