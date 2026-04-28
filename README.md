@@ -6,6 +6,8 @@ The Rubypoint task.
 
 Hello, i hope you have a good day, reviewer of this task :)
 
+### Structure
+
 Here is an overview of the setup.
 
 `app` is the application which uses the library.
