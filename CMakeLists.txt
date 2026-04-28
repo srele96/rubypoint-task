@@ -20,7 +20,11 @@ target_include_directories(${PROJECT_NAME} INTERFACE include)
 
 # App
 
-add_executable(${PROJECT_NAME}-app app/main.cpp)
+add_executable(
+    ${PROJECT_NAME}-app
+    app/main.cpp
+    app/app.cpp
+)
 target_link_libraries(
     ${PROJECT_NAME}-app
 
