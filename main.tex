@@ -122,10 +122,18 @@ However, this finds $\mathbf{P}$ and $\mathbf{Q}$ on an infinite line segments $
 
 \subsection*{Derive the closest point equation's parameter}
 
+This section derives the two closest points in terms of the line equation parameter.
+
+Before all, if the lines are parallel, then there is no intersection.
+
+\begin{align*}
+    D \approx 0
+\end{align*}
+
 First, we start by clamping the computed $s$ from the Cramer's rule:
 
 \begin{align*}
-    s_init &= clamp(\frac{D_s}{D}, 0, 1)
+    s_{\text{init}} &= \text{clamp}(\frac{D_s}{D}, 0, 1)
 \end{align*}
 
 \textit{Note: It does not matter which of $\frac{D_t}{D}$ or $\frac{D_s}{D}$ you start
@@ -148,7 +156,7 @@ The following computes the point along the infinite line:
     Q & = A + \frac{(A - P) \cdot m}{m \cdot m} m
 \end{align*}
 
-The computed $s_init$ lies on $B_0$, $B_1$ segment.
+The computed $s_{\text{init}}$ lies on $B_0$, $B_1$ segment.
 
 The vector $v$ is the direction vector of $B$ segment.
 
@@ -158,23 +166,23 @@ Also $b = v \cdot u$, and $d = w_o \cdot u$
 
 \begin{align*}
     Q &= A + \frac{(P - A) \cdot m}{m \cdot m} \cdot m \\
-    P &= B_0 + s_init v  \\
+    P &= B_0 + s_{\text{init}} v  \\
     A &= A_0 \\
-    P - A &= B_0 + s_init v - A_0 \\
-    P - A &= -(A_0 - B_0) + s_init v \\
+    P - A &= B_0 + s_{\text{init}} v - A_0 \\
+    P - A &= -(A_0 - B_0) + s_{\text{init}} v \\
     w_0 &= A_0 - B_0 \\
-    P - A &= - w_0 + s_init v \\
-    P - A &= s_init v - w_0 \\
+    P - A &= - w_0 + s_{\text{init}} v \\
+    P - A &= s_{\text{init}} v - w_0 \\
     m &= u \\
-    Q &= A_0 + \frac{(s_init v - w_0) \cdot m}{m \cdot m} \cdot m \\
-    Q &= A_0 + \frac{(s_init v - w_0) \cdot u}{u \cdot u} \cdot u \\
-    Q &= A_0 + \frac{s_init v \cdot u - w_0 \cdot u}{u \cdot u} \cdot u \\
+    Q &= A_0 + \frac{(s_{\text{init}} v - w_0) \cdot m}{m \cdot m} \cdot m \\
+    Q &= A_0 + \frac{(s_{\text{init}} v - w_0) \cdot u}{u \cdot u} \cdot u \\
+    Q &= A_0 + \frac{s_{\text{init}} v \cdot u - w_0 \cdot u}{u \cdot u} \cdot u \\
     b &= v \cdot u \\
     d &= w_o \cdot u  \\
     a &= u \cdot u \\
-    Q &= A_0 + \frac{s_init (v \cdot u) - (w_0 \cdot u)}{(u \cdot u)} \cdot u \\
-    Q &= A_0 + \frac{s_init b - d}{a} \cdot u \\
-    k &= clamp(\frac{s_init b - d}{a}, 0, 1) \\
+    Q &= A_0 + \frac{s_{\text{init}} (v \cdot u) - (w_0 \cdot u)}{(u \cdot u)} \cdot u \\
+    Q &= A_0 + \frac{s_{\text{init}} b - d}{a} \cdot u \\
+    k &= \text{clamp}(\frac{s_{\text{init}} b - d}{a}, 0, 1) \\
     Q &= A_0 + k \cdot u \\
 \end{align*}
 
@@ -199,8 +207,16 @@ Then, we repeat the process, project onto another line, and extract the paramete
     c &= v \cdot v \\
     e &= w_0 \cdot v \\
     Q &= B_0 + \frac{kb + e}{c} \cdot v \\
-    l &= clamp(\frac{kb + e}{c}, 0, 1) \\
+    l &= \text{clamp}(\frac{kb + e}{c}, 0, 1) \\
     Q &= B_0 + l \cdot v \\
 \end{align*}
+
+At the very end, if the distance between the two closest points is below some $\epsilon$ threshold, we conclude that there is an intersection.
+
+\begin{align*}
+    \text{distance}(W, Q) \approx 0
+\end{align*}
+
+\section*{Todo}
 
 \end{document}
