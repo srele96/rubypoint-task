@@ -2,6 +2,34 @@
 
 The Rubypoint task.
 
+## Introduction
+
+Hello, i hope you have a good day, reviewer of this task :)
+
+Here is an overview of the setup.
+
+`app` is the application which uses the library.
+
+`include` contains header files of the library.
+
+`src` contains implementation files of the library _(placeholder, didn't know templates can not be split to impl files)_.
+
+`test` a set of unit tests for the library.
+
+`asset` a set of assets used for this documentation.
+
+[`main.tex`](./main.tex) a LaTeX file explaining the math formulas, derivation, and variables.
+
+`.github` contains workflow to build `main.tex` file in github pipeline, which i could use to follow through, and implement the math in the application.
+
+### Short description
+
+You can think of the implementation in 2 parts. A LIBRARY and IMPLEMENTATION.
+
+The library handles everything related to mathematics, and all dependencies an intersection algorithm needs to use.
+
+The implementation uses the library, implements the intersection algorithm, and implements a few cases, based on visual representation from: [Desmos3D graph of the solution](https://www.desmos.com/3d/txxmz6pgxy)
+
 ## Documentation
 
 The documentation for the Rubypoint task. This project was developed on Windows 11.
