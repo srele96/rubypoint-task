@@ -4,6 +4,7 @@
 #include <cmath>
 #include <concepts>
 #include <cstddef>
+#include <limits>
 
 namespace RubypointTask {
 
@@ -160,6 +161,16 @@ struct Vector<3, T> : VectorBase<3, T, Vector<3, T>> {
 // ----------------------------------------------------------------------------
 
 using Vec3f = Vector<3, float>;
+using Vec3d = Vector<3, double>;
+
+// Hide the implementation internals.
+template<typename T>
+constexpr T epsilon() {
+  // Use a simplified version of a solution because it should be sufficient
+  // enough for the given task at hand.
+  // https://stackoverflow.com/questions/4915462/how-should-i-do-floating-point-comparison
+  return std::numeric_limits<T>::epsilon();
+}
 
 // ----------------------------------------------------------------------------
 

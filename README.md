@@ -158,6 +158,8 @@ _You can compile it using other cross-platform tools, but Docker was the most co
 
 ### Desmos
 
+I used the desmos graph below, to visually and numerically check if my math in C++ matches.
+
 I used desmos to visualize the Triple Scalar Product formula.
 
 You may find the [Triple Scalar Product 3D Desmos graph here](https://www.desmos.com/3d/txxmz6pgxy).
