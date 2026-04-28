@@ -118,11 +118,89 @@ Let $\mathbf{P}$ and $\mathbf{Q}$ be the two closest points:
     \mathbf{Q} &= \mathbf{L}_B(s)
 \end{align*}
 
-\section*{Todo}
+However, this finds $\mathbf{P}$ and $\mathbf{Q}$ on an infinite line segments $\mathbf{L}_A$ and $\mathbf{L}_B$ respectively. To solve that problem, we check first if $t$ is outside of bounds, and compute $s$.
 
-\begin{itemize}
-    \item Feed this solution into Desmos to check the computation.
-    \item In C++ we need to clamp $t$ and $s$
-\end{itemize}
+\subsection*{Derive the closest point equation's parameter}
+
+First, we start by clamping the computed $s$ from the Cramer's rule:
+
+\begin{align*}
+    s_init &= clamp(\frac{D_s}{D}, 0, 1)
+\end{align*}
+
+\textit{Note: It does not matter which of $\frac{D_t}{D}$ or $\frac{D_s}{D}$ you start
+from --- the double projection applies regardless, as long as you know which parameter
+belongs to which segment.}
+
+Below are the steps and explanations to derive the point to line projection, using the formula, written down in terms of already computed variables.
+
+$A$ - Point to project onto the line
+
+$P$ - Starting point of the line
+
+$m$ - Direction vector of the line
+
+The following computes the point along the infinite line:
+
+\begin{align*}
+    k &= \frac{(A - P) \cdot m}{m \cdot m} \\
+    Q &= A + km \\
+    Q & = A + \frac{(A - P) \cdot m}{m \cdot m} m
+\end{align*}
+
+The computed $s_init$ lies on $B_0$, $B_1$ segment.
+
+The vector $v$ is the direction vector of $B$ segment.
+
+The segment direction vector $m$ is: $m = u$
+
+Also $b = v \cdot u$, and $d = w_o \cdot u$
+
+\begin{align*}
+    Q &= A + \frac{(P - A) \cdot m}{m \cdot m} \cdot m \\
+    P &= B_0 + s_init v  \\
+    A &= A_0 \\
+    P - A &= B_0 + s_init v - A_0 \\
+    P - A &= -(A_0 - B_0) + s_init v \\
+    w_0 &= A_0 - B_0 \\
+    P - A &= - w_0 + s_init v \\
+    P - A &= s_init v - w_0 \\
+    m &= u \\
+    Q &= A_0 + \frac{(s_init v - w_0) \cdot m}{m \cdot m} \cdot m \\
+    Q &= A_0 + \frac{(s_init v - w_0) \cdot u}{u \cdot u} \cdot u \\
+    Q &= A_0 + \frac{s_init v \cdot u - w_0 \cdot u}{u \cdot u} \cdot u \\
+    b &= v \cdot u \\
+    d &= w_o \cdot u  \\
+    a &= u \cdot u \\
+    Q &= A_0 + \frac{s_init (v \cdot u) - (w_0 \cdot u)}{(u \cdot u)} \cdot u \\
+    Q &= A_0 + \frac{s_init b - d}{a} \cdot u \\
+    k &= clamp(\frac{s_init b - d}{a}, 0, 1) \\
+    Q &= A_0 + k \cdot u \\
+\end{align*}
+
+We clamp the $k$. Then, we project back using computed $k$, and we are certainly within the two segments, between the two points on the shortest distance from each other.
+
+Note: The logic should be reusable in terms of input parameters, which returns a scalar. The scalar represents clamped parametric value.
+
+Then, we repeat the process, project onto another line, and extract the parameter.
+
+\begin{align*}
+    Q &= A + \frac{(P - A) \cdot m}{m \cdot m} \cdot m \\
+    m &= v \\
+    P &= A_0 + ku \\
+    A &= B_0 \\
+    P - A &= A_0 + ku - B_0 \\
+    P - A &= A_0 - B_0 + ku \\
+    w_0 &= A_0 - B_0 \\
+    P - A &= w_0 + ku \\
+    Q &= B_0 + \frac{(w_0 + ku) \cdot v}{v \cdot v} \cdot v \\
+    Q &= B_0 + \frac{w_0 \cdot v + k (u \cdot v)}{v \cdot v} \cdot v \\
+    b &= u \cdot v \\
+    c &= v \cdot v \\
+    e &= w_0 \cdot v \\
+    Q &= B_0 + \frac{kb + e}{c} \cdot v \\
+    l &= clamp(\frac{kb + e}{c}, 0, 1) \\
+    Q &= B_0 + l \cdot v \\
+\end{align*}
 
 \end{document}
